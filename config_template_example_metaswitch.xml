@@ -1,0 +1,9 @@
+<zimletConfig name="org_zetalliance_universaldialer" version="0.1">
+    <global>
+        <property name="server">metaSwitch</property>
+
+        <property name="serverIp">my.metaSwitch.com</property>
+        <property name="allowedDomains">my.metaSwitch.com</property>
+
+    </global>
+</zimletConfig>

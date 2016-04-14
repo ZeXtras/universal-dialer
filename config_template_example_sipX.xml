@@ -1,0 +1,10 @@
+<zimletConfig name="org_zetalliance_universaldialer" version="0.1">
+    <global>
+        <property name="server">sipX</property>
+
+        <property name="serverIp">my.sipX.com</property>
+        <property name="allowedDomains">my.sipX.com</property>
+        <property name="actionTimeout">10</property>
+
+    </global>
+</zimletConfig>

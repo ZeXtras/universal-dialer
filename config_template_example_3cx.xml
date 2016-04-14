@@ -1,0 +1,9 @@
+<zimletConfig name="org_zetalliance_universaldialer" version="0.1">
+    <global>
+        <property name="server">3cx</property>
+
+        <property name="serverIp">my.3cx.com</property>
+        <property name="allowedDomains">my.3cx.com</property>
+
+    </global>
+</zimletConfig>

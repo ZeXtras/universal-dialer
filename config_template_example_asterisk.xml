@@ -1,0 +1,17 @@
+<zimletConfig name="org_zetalliance_universaldialer" version="0.1">
+    <global>
+        <property name="server">asterisk</property>
+
+        <property name="serverIp">my.asterisk.com</property>
+        <property name="allowedDomains">my.asterisk.com</property>
+
+        <property name="serverAdminUser">asteriskManagerAdmin</property>
+        <property name="serverAdminSecret">asteriskManagerAdminPassword</property>
+        <property name="actionTimeout">10</property>
+
+        <property name="managerPort">5038</property>
+        <property name="dialContext">default</property>
+        <property name="dialChannel">SIP</property>
+
+    </global>
+</zimletConfig>

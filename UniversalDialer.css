@@ -1,0 +1,20 @@
+.ImgVoip-panelIcon {
+    background: url("icon-universal-dialer.png") no-repeat 0 0;
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+}
+
+.ImgVoip-panelIconCall {
+    background: url("icon-universal-dialer-call.png") no-repeat 0 0;
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+}
+
+.ImgVoip-panelIconControl {
+    background: url("icon-universal-dialer-settings.png") no-repeat 0 0;
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+}

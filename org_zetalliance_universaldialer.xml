@@ -1,0 +1,39 @@
+<zimlet
+        name="org_zetalliance_universaldialer"
+        version="0.1"
+        label="${msg.zimletLabel}"
+        description="${msg.zimletDescription}">
+    <include>UniversalDialer.js</include>
+    <include>base64.js</include>
+    <include>UniversalDialerConnection.js</include>
+    <include>UniversalDialerDialogs.js</include>
+    <include>UniversalDialerSettings.js</include>
+    <include>UniversalDialerViews.js</include>
+    <includeCSS>UniversalDialer.css</includeCSS>
+    <handlerObject>org_zetalliance_universaldialer_HandlerObject</handlerObject>
+
+    <zimletPanelItem label="Universal Dialer" icon="Voip-panelIcon">
+        <toolTipText>Left click to open call dialog\n Right click to open menu</toolTipText>
+        <contextMenu>
+            <menuItem label="${msg.call}" id="CALL" icon="Voip-panelIconCall" />
+            <menuItem label="" id=""/>
+            <menuItem label="${msg.settings}" id="SETTINGS" icon="Voip-panelIconControl" />
+        </contextMenu>
+    </zimletPanelItem>
+
+    <contentObject type="phone">
+        <toolTipText>${msg.rightClickToDial}</toolTipText>
+        <matchOn>
+            <regex attrs="g">(\s|\t|^)\+?(\s?((\(\d{1,4}\))|(\d{1,4}))){1,10}(=?((\.|\,)?(\n|\r\n|\s|\t|$)))</regex>
+        </matchOn>
+        <contextMenu>
+            <menuItem label="${msg.callNumber}" id="CALLFROMREGEX" icon="Voip-panelIcon"/>
+        </contextMenu>
+    </contentObject>
+
+    <userProperties>
+        <property type="string" name="voip_user" value=""/>
+        <property type="string" name="voip_pin" value=""/>
+        <property type="string" name="dial_context" value=""/>
+    </userProperties>
+</zimlet>
