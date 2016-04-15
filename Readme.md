@@ -2,7 +2,7 @@
 
 Due to the great variety of PBX systems, each with its own API, it's not possible to create a zimlet with standardized setup instructions.
 
-The purpose of this zimlet is to collect most type of PBX systems and allow to originate a call through a SIP phone in the easiest way.
+The purpose of this zimlet is to support as many PBX systems as possible allowing to originate a call through a SIP phone in the easiest way.
 
 
 ##Supported PBX systems
