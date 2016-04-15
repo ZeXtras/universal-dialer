@@ -1,12 +1,21 @@
 /*
- * ***** BEGIN LICENSE BLOCK *****
- * Copyright (C) 2016 ZeXtras
+ * Universal Dialer - An universal click2call zimlet for Zimbra 
+ * Copyright (C) 2016 ZeXtras S.r.l. 
  *
- * The contents of this file are subject to the ZeXtras EULA;
- * you may not use this file except in compliance with the EULA.
- * You may obtain a copy of the EULA at
- * http://www.zextras.com/zextras-eula.html
- * ***** END LICENSE BLOCK *****
+ * This file is part of Universal Dialer.
+ *
+ * This program is free software; you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License 
+ * as published by the Free Software Foundation, version 2 of 
+ * the License. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with Universal Dialer. If not, see <http://www.gnu.org/licenses/>.
  */
 
 function UniversalDialerConnection() {}
