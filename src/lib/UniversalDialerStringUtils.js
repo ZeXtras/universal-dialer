@@ -18,23 +18,17 @@
  * along with Universal Dialer. If not, see <http://www.gnu.org/licenses/>.
  */
 
-.ImgVoip-panelIcon {
-    background: url("icon-universal-dialer.png") no-repeat 0 0;
-    width: 16px;
-    height: 16px;
-    overflow: hidden;
+function UniversalDialerStringUtils() {
 }
 
-.ImgVoip-panelIconCall {
-    background: url("icon-universal-dialer-call.png") no-repeat 0 0;
-    width: 16px;
-    height: 16px;
-    overflow: hidden;
-}
+UniversalDialerStringUtils.prototype.constructor = UniversalDialerStringUtils;
 
-.ImgVoip-panelIconControl {
-    background: url("icon-universal-dialer-settings.png") no-repeat 0 0;
-    width: 16px;
-    height: 16px;
-    overflow: hidden;
-}
+UniversalDialerStringUtils.prototype.getMessage = function (message) {
+  if (typeof org_zetalliance_universaldialer !== "undefined" && org_zetalliance_universaldialer.hasOwnProperty(message)) {
+    return org_zetalliance_universaldialer[message];
+  }
+  else {
+    return message;
+  }
+};
+

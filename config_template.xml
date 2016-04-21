@@ -31,9 +31,9 @@
         <!--<property name="server">3cx</property>-->
         <!--<property name="server">metaSwitch</property>-->
 
-        <property name="serverIp">your.server.com</property>
-        <property name="allowedDomains">your.server.com</property>
-        <property name="actionTimeout">10</property>
+        <property name="serverIp">your.voipserver.com</property>
+        <property name="allowedDomains">your.voipserver.com</property>
+        <property name="actionTimeout">30</property>
 
 
         <!--> Asterisk configuration<-->
@@ -41,7 +41,6 @@
         <!--<property name="serverAdminUser">admin</property>-->
         <!--<property name="serverAdminSecret">adminPassword</property>-->
         <!--<property name="managerPort">5038</property>-->
-        <!--<property name="dialContext">default</property>-->
         <!--<property name="dialChannel">SIP</property>-->
 
     </global>

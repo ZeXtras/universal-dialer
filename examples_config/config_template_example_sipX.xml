@@ -4,7 +4,7 @@
 
         <property name="serverIp">my.sipX.com</property>
         <property name="allowedDomains">my.sipX.com</property>
-        <property name="actionTimeout">10</property>
+        <property name="actionTimeout">30</property>
 
     </global>
 </zimletConfig>
