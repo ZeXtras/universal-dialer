@@ -45,5 +45,5 @@ UniversalDialerPbxManager.prototype.validateNumber = function (settings) {
 };
 
 UniversalDialerPbxManager.prototype.sendCall = function (callee) {
-  this.pbxMap[this.currentPbxName].sendCall(callee.replace(/[^0-9+*#]/g, ''));
+  this.pbxMap[this.currentPbxName].sendCall(callee.replace(/[^0-9+*#]/g, '').replace(/\+/g, '00'));
 };
