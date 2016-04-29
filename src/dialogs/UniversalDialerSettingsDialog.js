@@ -50,7 +50,7 @@ function UniversalDialerSettingsDialog(zimlet, pbxMgr) {
 
   this._settingsGroup = new DwtGrouper(settingsCtrl);
   this._settingsGroup.setLabel(this.strUtl.getMessage("phoneGroupTitle"));
-  this._settingsView = new UniversalDialerSettingsView(this._settingsGroup);
+  this._settingsView = new UniversalDialerSettingsView(this._settingsGroup, this._tabGroup);
   this._settingsGroup.setView(this._settingsView);
 
 
@@ -61,7 +61,7 @@ function UniversalDialerSettingsDialog(zimlet, pbxMgr) {
     DwtDialog.OK_BUTTON,
     new AjxListener(
       this,
-      this._saveUserProperties
+      this._checkAuthentication
     )
   );
   this.setButtonListener(
@@ -74,7 +74,7 @@ function UniversalDialerSettingsDialog(zimlet, pbxMgr) {
   this.setEnterListener(
     new AjxListener(
       this,
-      this._saveUserProperties
+      this._checkAuthentication
     )
   );
 }
@@ -91,38 +91,57 @@ UniversalDialerSettingsDialog.prototype.popup = function () {
   }
 };
 
-UniversalDialerSettingsDialog.prototype._saveUserProperties = function () {
-  var settings = this.managedProperties,
-    index;
-
-  for (index = 0; index < settings.length; index += 1) {
-    settings[index].setValue(this._settingsView.getInputFieldValue(settings[index].getName()));
+UniversalDialerSettingsDialog.prototype._saveUserProperties = function (result) {
+  var check = result;
+    // check = (typeof result.getResponse === "function") ? result.getResponse().response.success : result.success;
+  if (typeof result.getResponse === "function") {
+    check = result.getResponse().response.success;
   }
 
-  if (this._settingsView.getInputFieldValue("UDuserNumber").replace(/^\s+|\s+$/g, '') != "") {
-    if (this.pbxMgr.validateNumber(settings)) {
-      appCtxt.getAppController().setStatusMsg({msg: this.strUtl.getMessage("successCheckAuth"), level: 1});
-      for (index = 0; index < settings.length; index += 1) {
-        this.zimlet.setUserProperty(settings[index].getName(), settings[index].getValue(), true)
-      }
-
-      this.popdown();
-    } else {
-      appCtxt.getAppController().setStatusMsg({msg: this.strUtl.getMessage("errCheckAuth"), level: 3});
+  if (check) {
+    for (var index = 0; index < this.managedProperties.length; index += 1) {
+      this.zimlet.setUserProperty(this.managedProperties[index].getName(), this.managedProperties[index].getValue(), true)
     }
+    this.popdown();
+    appCtxt.getAppController().setStatusMsg({msg: this.strUtl.getMessage("successCheckAuth"), level: 1});
+  } else {
+    appCtxt.getAppController().setStatusMsg({msg: this.strUtl.getMessage("errCheckAuth"), level: 3});
+  }
+};
+
+UniversalDialerSettingsDialog.prototype._checkAuthentication = function () {
+  for (var index = 0; index < this.managedProperties.length; index += 1) {
+    this.managedProperties[index].setValue(this._settingsView.getInputFieldValue(this.managedProperties[index].getName()));
+  }
+
+  if (this._settingsView.checkInputFieldsNotEmpty()) {
+    this.pbxMgr.validateNumber(
+      this.managedProperties,
+      new AjxCallback(
+        this,
+        this._saveUserProperties
+      )
+    );
+    
+    // if (this.pbxMgr.validateNumber(settings)) {
+    //   appCtxt.getAppController().setStatusMsg({msg: this.strUtl.getMessage("successCheckAuth"), level: 1});
+    //   for (index = 0; index < settings.length; index += 1) {
+    //     this.zimlet.setUserProperty(settings[index].getName(), settings[index].getValue(), true)
+    //   }
+    //
+    //   this.popdown();
+    // } else {
+    //   appCtxt.getAppController().setStatusMsg({msg: this.strUtl.getMessage("errCheckAuth"), level: 3});
+    // }
   } else {
     appCtxt.getAppController().setStatusMsg({msg: this.strUtl.getMessage("inputFieldEmptyInSettings"), level: 2});
   }
 };
 
 UniversalDialerSettingsDialog.prototype._resetUserProperties = function () {
-  var settings = this.managedProperties,
-    index;
-
-  for (index = 0; index < settings.length; index += 1) {
-    this.zimlet.setUserProperty(settings[index].getName(), "", true)
+  for (var index = 0; index < this.managedProperties.length; index += 1) {
+    this.zimlet.setUserProperty(this.managedProperties[index].getName(), "", true)
   }
-
   this.popdown();
   appCtxt.getAppController().setStatusMsg({msg: this.strUtl.getMessage("successReset"), level: 1});
 };

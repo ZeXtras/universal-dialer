@@ -22,6 +22,7 @@ function UniversalDialerSipX(zimlet) {
   UniversalDialerPbxBase.call(this);
   this.zimlet = zimlet;
   this.strUtl = new UniversalDialerStringUtils();
+  // load custom global properties
   this._globalProperties = {
     name: this.zimlet.getConfig("server"),
     ip: this.zimlet.getConfig("serverIp"),
@@ -33,10 +34,12 @@ UniversalDialerSipX.prototype = new UniversalDialerPbxBase();
 UniversalDialerSipX.prototype.constructor = UniversalDialerSipX;
 
 UniversalDialerSipX.prototype.getName = function () {
+  // return custom name according to config_template.xml
   return "sipX";
 };
 
 UniversalDialerSipX.prototype.sendCall = function (callee) {
+  // send originate call request to zimbra with custom api
   var query, url, sipAuth = [];
   sipAuth.Authorization = "Basic " + Base64.encode(this.zimlet.getUserProperty("UDuserNumber") + ":" + this.zimlet.getUserProperty("UDpin"));
   query =
@@ -64,7 +67,8 @@ UniversalDialerSipX.prototype.sendCall = function (callee) {
   );
 };
 
-UniversalDialerSipX.prototype.validate = function (settings) {
+UniversalDialerSipX.prototype.validate = function (settings, callback) {
+  // send authentication request to zimbra with custom api
   var userNumber = UniversalDialerPbxBase.extractPropertyValue(settings, "UDuserNumber"),
     pin = UniversalDialerPbxBase.extractPropertyValue(settings, "UDpin"),
     url,
@@ -86,10 +90,20 @@ UniversalDialerSipX.prototype.validate = function (settings) {
     null,
     "get"
   );
-  return response.success;
+  callback.run(response.success);
 };
 
 UniversalDialerSipX.prototype.getUserProperties = function () {
+  // load custom properties:
+  //
+  //    property constructor:
+  //      - (string) property name according to a userProperty in org_zetalliance_universaldialer.xml
+  //      - (string) user property value (get default value if user doesn't set in previous session)
+  //      - (boolean) hide this property inside user view in both dialogs
+  //      - (string) message shown in user view (if previous boolean is set to true, this parameter can be skipped)
+  //      - (string) message that explain what user should insert in settings dialog
+  //      - (string) layout of user property
+  
   var _userProperties = [];
   _userProperties.push(new UniversalDialerProperty(
     "UDuserNumber",

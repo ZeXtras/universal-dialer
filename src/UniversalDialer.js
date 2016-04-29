@@ -27,10 +27,16 @@ var UniversalDialerBase = org_zetalliance_universaldialer_HandlerObject;
 
 UniversalDialerBase.prototype.init = function () {
   this.strUtl = new UniversalDialerStringUtils();
+  // Configuration check
   this.zimletConfigured = (this.getConfig("server") != "needToChange");
   
   if (this.zimletConfigured) {
 
+    /**
+     *  AddPbx: register new PbxHandler
+     */
+    // Register in pbx handler each zimlet PbxHandler
+    //
     this.pbxManager = new UniversalDialerPbxManager(this.getConfig("server"));
     this.pbxManager.registerPbx(new UniversalDialer3cx(this));
     this.pbxManager.registerPbx(new UniversalDialerAsterisk(this));

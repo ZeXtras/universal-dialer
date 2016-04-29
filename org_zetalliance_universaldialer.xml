@@ -24,6 +24,7 @@
     label="${msg.zimletLabel}"
     description="${msg.zimletDescription}">
     <include>src/lib/UniversalDialerStringUtils.js</include>
+    <include>src/lib/base64.js</include>
     <include>src/UniversalDialerProperty.js</include>
     <include>src/UniversalDialerPbxManager.js</include>
     <include>src/pbx/UniversalDialerPbxBase.js</include>
@@ -36,7 +37,6 @@
     <include>src/dialogs/view/UniversalDialerUserView.js</include>
     <include>src/dialogs/UniversalDialerCallDialog.js</include>
     <include>src/dialogs/UniversalDialerSettingsDialog.js</include>
-    <include>base64.js</include>
     <include>src/UniversalDialer.js</include>
     <includeCSS>css/UniversalDialer.css</includeCSS>
     <handlerObject>org_zetalliance_universaldialer_HandlerObject</handlerObject>
@@ -53,7 +53,7 @@
     <contentObject type="phone">
         <toolTipText>${msg.rightClickToDial}</toolTipText>
         <matchOn>
-            <regex attrs="g">((\/|\+| |\.|\-)?((\(\+?\d{2,4}\))|(\d{2,4}))){2,5}(=?((\.|\,)?(\n|\r\n|\s|\t|$)))</regex>
+            <regex attrs="g">((\/| |\.|\-)?((\(\+?\d{2,4}\))|(\d{2,4}))){2,5}(=?((\.|\,)?(\n|\r\n|\s|\t|$)))</regex>
         </matchOn>
         <contextMenu>
             <menuItem label="${msg.callNumber}" id="CALLFROMREGEX" icon="Voip-panelIcon"/>
@@ -64,5 +64,6 @@
         <property type="string" name="UDuserNumber" value=""/>
         <property type="string" name="UDpin" value=""/>
         <property type="string" name="UDcontext" value=""/>
+        <!-- AddPbx: add here further required user attributes -->
     </userProperties>
 </zimlet>

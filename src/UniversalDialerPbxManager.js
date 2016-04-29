@@ -40,8 +40,8 @@ UniversalDialerPbxManager.prototype.getPbxSettings = function () {
   }
 };
 
-UniversalDialerPbxManager.prototype.validateNumber = function (settings) {
-  return this.pbxMap[this.currentPbxName].validate(settings)
+UniversalDialerPbxManager.prototype.validateNumber = function (settings, callback) {
+  return this.pbxMap[this.currentPbxName].validate(settings, callback)
 };
 
 UniversalDialerPbxManager.prototype.sendCall = function (callee) {

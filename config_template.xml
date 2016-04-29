@@ -37,11 +37,11 @@
 
 
         <!--> Asterisk configuration<-->
-
         <!--<property name="serverAdminUser">admin</property>-->
         <!--<property name="serverAdminSecret">adminPassword</property>-->
         <!--<property name="managerPort">5038</property>-->
         <!--<property name="dialChannel">SIP</property>-->
+        <!--AddPbx: add here global attributes, common to all users -->
 
     </global>
 </zimletConfig>

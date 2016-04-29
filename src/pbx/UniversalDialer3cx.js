@@ -22,6 +22,7 @@ function UniversalDialer3cx(zimlet) {
   UniversalDialerPbxBase.call(this);
   this.zimlet = zimlet;
   this.strUtl = new UniversalDialerStringUtils();
+  // load custom global properties
   this._globalProperties = {
     name: this.zimlet.getConfig("server"),
     ip: this.zimlet.getConfig("serverIp"),
@@ -33,10 +34,12 @@ UniversalDialer3cx.prototype = new UniversalDialerPbxBase();
 UniversalDialer3cx.prototype.constructor = UniversalDialer3cx;
 
 UniversalDialer3cx.prototype.getName = function () {
+  // return custom name according to config_template.xml
   return "3cx";
 };
 
 UniversalDialer3cx.prototype.sendCall = function (callee) {
+  // send originate call request to zimbra with custom api
   /**
    * TODO: need tests
    */
@@ -50,7 +53,7 @@ UniversalDialer3cx.prototype.sendCall = function (callee) {
     AjxStringUtil.urlComponentEncode(
       "http://" +
       this._globalProperties.ip +
-      "/ivr/PbxAPI.aspx" +
+      ":5000/ivr/PbxAPI.aspx" +
       query
     );
   AjxRpc.invoke(
@@ -60,11 +63,13 @@ UniversalDialer3cx.prototype.sendCall = function (callee) {
     new AjxCallback(
       this,
       this.manageResult
-    )
+    ),
+    "get"
   );
 };
 
-UniversalDialer3cx.prototype.validate = function (settings) {
+UniversalDialer3cx.prototype.validate = function (settings, callback) {
+  // send originate call request to zimbra with custom api
   var userNumber = UniversalDialerPbxBase.extractPropertyValue(settings, "UDuserNumber"),
     pin = UniversalDialerPbxBase.extractPropertyValue(settings, "UDpin"),
     url,
@@ -82,19 +87,30 @@ UniversalDialer3cx.prototype.validate = function (settings) {
     AjxStringUtil.urlComponentEncode(
       "http://" +
       this._globalProperties.ip +
-      "/ivr/PbxAPI.aspx" +
+      ":5000/ivr/PbxAPI.aspx" +
       query
     );
   response = AjxRpc.invoke(
     null,
     url,
     null,
-    null
+    null,
+    "get"
   );
-  return response.success;
+  callback.run(response.success);
 };
 
 UniversalDialer3cx.prototype.getUserProperties = function () {
+  // load custom properties:
+  //
+  //    property constructor:
+  //      - (string) property name according to a userProperty in org_zetalliance_universaldialer.xml
+  //      - (string) user property value (get default value if user doesn't set in previous session)
+  //      - (boolean) hide this property inside user view in both dialogs
+  //      - (string) message shown in user view (if previous boolean is set to true, this parameter can be skipped)
+  //      - (string) message that explain what user should insert in settings dialog
+  //      - (string) layout of user property
+
   var _userProperties = [];
   _userProperties.push(new UniversalDialerProperty(
     "UDuserNumber",

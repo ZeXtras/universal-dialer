@@ -22,6 +22,7 @@ function UniversalDialerMetaSwitch(zimlet) {
   UniversalDialerPbxBase.call(this);
   this.zimlet = zimlet;
   this.strUtl = new UniversalDialerStringUtils();
+  // load custom global properties
   this._globalProperties = {
     name: this.zimlet.getConfig("server"),
     ip: this.zimlet.getConfig("serverIp"),
@@ -33,10 +34,12 @@ UniversalDialerMetaSwitch.prototype = new UniversalDialerPbxBase();
 UniversalDialerMetaSwitch.prototype.constructor = UniversalDialerMetaSwitch;
 
 UniversalDialerMetaSwitch.prototype.getName = function () {
+  // return custom name according to config_template.xml
   return "metaSwitch";
 };
 
 UniversalDialerMetaSwitch.prototype.sendCall = function (callee) {
+  // send originate call request to zimbra with custom api
   /*
    TODO: need tests
    */
@@ -80,17 +83,27 @@ UniversalDialerMetaSwitch.prototype.sendCall = function (callee) {
   );
 };
 
-UniversalDialerMetaSwitch.prototype.validate = function (settings) {
+UniversalDialerMetaSwitch.prototype.validate = function (settings, callback) {
   var userNumber = UniversalDialerPbxBase.extractPropertyValue(settings, "UDuserNumber"),
     pin = UniversalDialerPbxBase.extractPropertyValue(settings, "UDpin");
 
   /**
    *  TODO: find a way to validate metaswitch number
    */
-  return true;
+  callback.run(true);
 };
 
 UniversalDialerMetaSwitch.prototype.getUserProperties = function () {
+  // load custom properties:
+  //
+  //    property constructor:
+  //      - (string) property name according to a userProperty in org_zetalliance_universaldialer.xml
+  //      - (string) user property value (get default value if user doesn't set in previous session)
+  //      - (boolean) hide this property inside user view in both dialogs
+  //      - (string) message shown in user view (if previous boolean is set to true, this parameter can be skipped)
+  //      - (string) message that explain what user should insert in settings dialog
+  //      - (string) layout of user property
+  
   var _userProperties = [];
   _userProperties.push(new UniversalDialerProperty(
     "UDuserNumber",

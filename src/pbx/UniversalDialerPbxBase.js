@@ -18,26 +18,56 @@
  * along with Universal Dialer. If not, see <http://www.gnu.org/licenses/>.
  */
 
-function UniversalDialerPbxBase() {
+/**
+ * AddPbx: interface class that must be implemented
+ * AddPbx: load in base function the global properties with this.zimlet.getConfig(property)
+ */
+function UniversalDialerPbxBase(zimlet) {
+  this.zimlet = zimlet;
   this.strUtl = new UniversalDialerStringUtils();
 }
 
+UniversalDialerPbxBase.AUTHENTICATE = "authenticate";
+UniversalDialerPbxBase.SEND_CALL = "send_call";
+
+/**
+ * AddPbx: return PbxName
+ */
 UniversalDialerPbxBase.prototype.getName = function () {
   throw new Error("Not yet implemented");
 };
 
-UniversalDialerPbxBase.prototype.sendCall = function () {
+
+/**
+ * AddPbx: insert here custom originate call request to Pbx
+ */
+UniversalDialerPbxBase.prototype.sendCall = function (callee) {
   throw new Error("Not yet implemented");
 };
 
-UniversalDialerPbxBase.prototype.validate = function () {
+
+/**
+ * AddPbx: insert here custom auth request to Pbx
+ * if authentication success run successCallback, else run errorCallback
+ */
+UniversalDialerPbxBase.prototype.validate = function (settings, callback) {
   throw new Error("Not yet implemented");
 };
 
+
+/**
+ * AddPbx: list of custom user properties,
+ * these must be listed in org_zetalliance_universaldialer.xml at userProperties tag
+ * @return boolean
+ */
 UniversalDialerPbxBase.prototype.getUserProperties = function () {
   throw new Error("Not yet implemented");
 };
 
+/**
+ * Common function that can be override or not used
+ * @param result
+ */
 UniversalDialerPbxBase.prototype.manageResult = function (result) {
   if (result.success) {
     appCtxt.getAppController().setStatusMsg({msg: this.strUtl.getMessage("successCall"), level: 1});
@@ -46,6 +76,11 @@ UniversalDialerPbxBase.prototype.manageResult = function (result) {
   }
 };
 
+/**
+ * Common function to recover value of a given property
+ * @param settings: array of [UniversalDialerProperty]
+ * @param propertyName
+ */
 UniversalDialerPbxBase.extractPropertyValue = function (settings, propertyName) {
   for (var index = 0; index < settings.length; index += 1) {
     if (settings[index].getName() === propertyName) {

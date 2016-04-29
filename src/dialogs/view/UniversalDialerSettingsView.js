@@ -18,7 +18,8 @@
  * along with Universal Dialer. If not, see <http://www.gnu.org/licenses/>.
  */
 
-function UniversalDialerSettingsView(parent) {
+function UniversalDialerSettingsView(parent, _tabGroup) {
+  this._tabGroup = _tabGroup;
   DwtComposite.call(this, {parent: parent});
 }
 
@@ -41,6 +42,7 @@ UniversalDialerSettingsView.prototype._addInputFieldRow = function (property) {
     UniversalDialerSettingsView.KEY_SETTING_ID,
     property.getName()
   );
+  this._tabGroup.addMember(inputField);
   this._inputFields.push(inputField);
 };
 
@@ -52,12 +54,23 @@ UniversalDialerSettingsView.prototype.getInputFieldValue = function (propertyNam
   }
 };
 
+UniversalDialerSettingsView.prototype.checkInputFieldsNotEmpty = function () {
+  for (var index = 0; index < this._inputFields.length; index += 1) {
+    if (this._inputFields[index].getValue().replace(/^\s+|\s+$/g, '') === "") {
+      return false;
+    }
+  }
+  return true;
+};
+
 UniversalDialerSettingsView.prototype.updateView = function (properties) {
+  this._tabGroup.removeAllMembers();
   this._inputFields = [];
   this.removeChildren();
   for (var i = 0; i < properties.length; i += 1) {
     if (properties[i].getInputType() === UniversalDialerProperty.INPUT_FIELD) {
       this._addInputFieldRow(properties[i]);
+
     }
   }
 };

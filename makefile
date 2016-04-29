@@ -9,7 +9,6 @@ package: clean
 		config_template.xml \
 		css/UniversalDialer.css \
 		src/UniversalDialer.js \
-		base64.js \
 		*.properties \
 		UniversalDialer.jsp \
 		src/UniversalDialerProperty.js \
@@ -25,16 +24,22 @@ package: clean
 		src/dialogs/view/UniversalDialerSettingsView.js \
 		src/dialogs/view/UniversalDialerUserView.js \
 		src/lib/UniversalDialerStringUtils.js \
+		src/lib/base64.js \
 		assets/icon-universal-dialer.png \
 		assets/icon-universal-dialer-call.png \
-		assets/icon-universal-dialer-settings.png \
-		asterisk-java-1.0.0-m1.jar
+		assets/icon-universal-dialer-settings.png
 
 install:
 	cp $(PACKAGE) /tmp/$(PACKAGE)
 #	chown zimbra:zimbra /tmp/$(PACKAGE)
 	sudo su -c "/opt/zimbra/bin/zmzimletctl undeploy $(ZIMLET)" zimbra
 	sudo su -c "/opt/zimbra/bin/zmzimletctl deploy /tmp/$(PACKAGE)" zimbra
+
+installExt:
+	sudo ./installExtension
+	sudo su -c "/opt/zimbra/bin/zmmailboxdctl restart" zimbra
+
+devel: package install installExt
 
 clean:
 	rm -rf $(PACKAGE)

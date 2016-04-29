@@ -6,15 +6,15 @@ The purpose of this zimlet is to collect most type of PBX System and follow the 
 
 ##Supported PBX systems
 
-* SipX/SipXecs (working)
-* Asterisk (working, to be improved)
+* SipX/SipXecs
+* Asterisk
 * 3cx (not tested)
 * MetaSwitch (not tested)
 * ...more are coming
 
 ##Installation
 
-Zimlet installation require **_deployment_** and **_configuration_**.
+Zimlet installation require **_deployment_**, **_configuration_** and **_extension_**.
 
 ### Deployment
 
@@ -48,19 +48,28 @@ To configure org_zetalliance_universaldialer is necessary change config_template
 
 **`zmzimletctl configure /tmp/config_template.xml.tmp`**
 
-### Asterisk Case
+### Extension
 
-With Asterisk server and Zimbra 8.5+, to complete zimlet installation you have to enable .jsp files in your zimbra server.
+Last step require to enable Extension (necessary for Asterisk):
 
-Check .jsp enabled with following command:
+ * Log as **root** user
+ * Create extension directory:
 
-**`zmprov gs your.server.com | grep zimbraZimletJspEnabled`**
+ **`mkdir /opt/zimbra/lib/ext/universalDialer`**
 
-If is FALSE enable it with following command:
+ * Download correct openzal version for your zimbra version:
 
-**`zmprov ms your.server.com zimbraZimletJspEnabled TRUE`**
+ **`wget "https://openzal.org/1.10/zal-1.10.5-${ZIMBRA_VERSION}.jar" -O "/tmp/zal.jar"`**
 
-Restart zimbra with **`zmcontrol restart`**
+ * Copy extension jar, openzal jar and necessary library jar (at the moment only asterisk java jar):
+
+ **`cp {path-to}/universal-dialer-extension.jar /opt/zimbra/lib/ext/universalDialer/`**
+
+ **`cp /tmp/zal.jar /opt/zimbra/lib/ext/universalDialer/`**
+
+ **`cp {path-to}/ /opt/zimbra/lib/ext/universalDialer/`**
+
+ * Restart zimbra with **`zmcontrol restart`**
 
 ##Usage
 
