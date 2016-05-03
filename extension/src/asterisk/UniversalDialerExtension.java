@@ -30,7 +30,7 @@ public class UniversalDialerExtension implements ZalExtension {
 
     @Override
     public String getName() {
-        return "asteriskExtension";
+        return "universalDialerExtension";
     }
 
     /**

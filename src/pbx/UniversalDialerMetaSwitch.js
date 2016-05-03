@@ -40,13 +40,12 @@ UniversalDialerMetaSwitch.prototype.getName = function () {
 
 UniversalDialerMetaSwitch.prototype.sendCall = function (callee) {
   // send originate call request to zimbra with custom api
-  /*
-   TODO: need tests
-   */
-  var url, login, requestString, makeCall;
-  login = "login?version=9.0" +
+  var url, login, requestString;
+  login = AjxStringUtil.urlComponentEncode(
+    "login?version=9.0" +
     "&DirectoryNumber=" + this.zimlet.getUserProperty("UDuserNumber") +
-    "&Password=" + this.zimlet.getUserProperty("UDpin");
+    "&Password=" + this.zimlet.getUserProperty("UDpin")
+  );
   requestString =
     "{objectType:{_:'Meta_CSTA_MakeCall'}," +
     "callingDevice:{_:'" + this.zimlet.getUserProperty("UDuserNumber") + "'}," +
@@ -55,8 +54,7 @@ UniversalDialerMetaSwitch.prototype.sendCall = function (callee) {
     "callCharacteristics:{assistCall:{_:false}}}";
   url = ZmZimletBase.PROXY +
     AjxStringUtil.urlComponentEncode(
-      "https://" + this._globalProperties.ip + "/" +
-      login
+      "https://" + this._globalProperties.ip + "/"
     );
   
   var finalCallback = new AjxCallback(
@@ -66,31 +64,46 @@ UniversalDialerMetaSwitch.prototype.sendCall = function (callee) {
 
   AjxRpc.invoke(
     null,
-    url,
+    url + login,
     null,
     new AjxCallback(
       this,
       function (result) {
-        makeCall = "session" + result.text + "/line/action?version9.0";
         AjxRpc.invoke(
           requestString,
-          url + makeCall,
+          url + AjxStringUtil.urlComponentEncode(result.text.replace("=","") + "/line/action?version9.0"),
           null,
           finalCallback
         );
       }
-    )
+    ),
+    "get"
   );
 };
 
 UniversalDialerMetaSwitch.prototype.validate = function (settings, callback) {
+  // send authentication request to zimbra with custom api
   var userNumber = UniversalDialerPbxBase.extractPropertyValue(settings, "UDuserNumber"),
     pin = UniversalDialerPbxBase.extractPropertyValue(settings, "UDpin");
 
-  /**
-   *  TODO: find a way to validate metaswitch number
-   */
-  callback.run(true);
+  var url, login, response;
+  login = "login?version=9.0" +
+    "&DirectoryNumber=" + userNumber +
+    "&Password=" + pin;
+  url = ZmZimletBase.PROXY +
+    AjxStringUtil.urlComponentEncode(
+      "https://" + this._globalProperties.ip + "/" +
+      login
+    );
+
+  response = AjxRpc.invoke(
+    null,
+    url,
+    null,
+    null,
+    "get"
+  );
+  callback.run(response.success);
 };
 
 UniversalDialerMetaSwitch.prototype.getUserProperties = function () {

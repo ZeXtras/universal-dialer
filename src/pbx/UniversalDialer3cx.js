@@ -40,9 +40,9 @@ UniversalDialer3cx.prototype.getName = function () {
 
 UniversalDialer3cx.prototype.sendCall = function (callee) {
   // send originate call request to zimbra with custom api
-  /**
-   * TODO: need tests
-   */
+
+  // Be careful!!! Works only on 3cx Phone System v12 and v12,5
+
   var query, url;
   query = "?func=make_call" +
     "&from=" + this.zimlet.getUserProperty("UDuserNumber") +
@@ -70,15 +70,14 @@ UniversalDialer3cx.prototype.sendCall = function (callee) {
 
 UniversalDialer3cx.prototype.validate = function (settings, callback) {
   // send originate call request to zimbra with custom api
+
+  // Be careful!!! Works only on 3cx Phone System v12 and v12,5
+  
   var userNumber = UniversalDialerPbxBase.extractPropertyValue(settings, "UDuserNumber"),
     pin = UniversalDialerPbxBase.extractPropertyValue(settings, "UDpin"),
     url,
     query,
     response;
-  /**
-   *  TODO: find a way to validate 3cx number
-   *  The following test make a call to same number, not sure it works
-   */
   query = "?func=make_call" +
     "&from=" + userNumber +
     "&pin=" + pin +

@@ -41,6 +41,7 @@ package asterisk;
 
 import org.asteriskjava.manager.ManagerConnection;
 import org.asteriskjava.manager.ManagerConnectionFactory;
+import org.asteriskjava.manager.ManagerConnectionState;
 import org.asteriskjava.manager.action.CommandAction;
 import org.asteriskjava.manager.action.OriginateAction;
 import org.asteriskjava.manager.response.CommandResponse;
@@ -77,9 +78,7 @@ public class AsteriskSoapHandler implements SoapHandler
     )
     {
         mProvisioning.getZimlet("org_zetalliance_universaldialer").getAttr("");
-
-        long timeout = Long.parseLong(zimbraContext.getParameter("timeout","30000")) * 1000L;
-        String command = zimbraContext.getParameter("command", "authenticate");
+        long timeout = Long.parseLong(zimbraContext.getParameter("timeout","30")) * 1000L;
         ManagerConnection managerConnection;
         int port;
 
@@ -95,79 +94,59 @@ public class AsteriskSoapHandler implements SoapHandler
                 zimbraContext.getParameter("managerUser", ""),
                 zimbraContext.getParameter("managerSecret", "")
         );
-        managerConnection = mCF.createManagerConnection();
-        soapResponse.setValue("success",false);
 
-        switch (command)
-        {
-            case "authenticate": {
-                String user = zimbraContext.getParameter("user", "");
-                String pin = zimbraContext.getParameter("pin", "");
-                if (user != null && pin != null) {
+        managerConnection = mCF.createManagerConnection();
+        String user = zimbraContext.getParameter("user", "");
+        String pin = zimbraContext.getParameter("pin", "");
+        soapResponse.setValue("success",false);
+        try {
+            if (user != null && pin != null) {
+                if (managerConnection == null) {
+                    soapResponse.setValue("text", "Asterisk Manager Connection error");
+                } else {
+                    managerConnection.login("off");
                     CommandAction action = new CommandAction();
                     action.setCommand("sip show users");
-                    CommandResponse response;
-                    try {
-                        if (managerConnection == null) {
-                            soapResponse.setValue("text", "ManagerConnection is null");
-                        } else {
-                            managerConnection.login("off");
-                            response = (CommandResponse) managerConnection.sendAction(action, timeout + 10);
-                            for (String row : response.getResult()) {
-                                String[] array = row.split("\\s+");
-                                if (user.equals(array[0]) && pin.equals(array[1])) {
-                                    soapResponse.setValue("success", true);
-                                }
+                    CommandResponse authResponse = (CommandResponse) managerConnection.sendAction(action, timeout + 10);
+                    for (String row : authResponse.getResult()) {
+                        String[] array = row.split("\\s+");
+                        if (array[0].equals(user) && array[1].equals(pin) && !array[4].equals("ACL")) {
+                            // successful authentication then:
+                            String callee = zimbraContext.getParameter("callee", "");
+                            if( callee.length() == 0) {
+                                // callee empty => only validation
+                                soapResponse.setValue("success", true);
+                            } else {
+                                // callee not empty => validation and send call
+                                OriginateAction actionCall = new OriginateAction();
+                                actionCall.setChannel(zimbraContext.getParameter("dialChannelType", "") + "/" + user);
+                                actionCall.setContext(zimbraContext.getParameter("dialContext", ""));
+                                actionCall.setExten(callee);
+                                actionCall.setCallerId(callee + " <" + user + ">");
+                                actionCall.setPriority(1);
+                                actionCall.setTimeout(timeout);
+                                ManagerResponse responseCall = managerConnection.sendAction(actionCall,timeout+10);
+                                soapResponse.setValue("text",responseCall.getMessage());
+                                soapResponse.setValue("success",true);
                             }
-                            managerConnection.logoff();
                         }
-                    } catch (Exception ex) {
-                        soapResponse.setValue("text", "Error while connecting to server");
                     }
-                } else {
-                    soapResponse.setValue("text", "Phone source or phone destination not valid");
-                    handleError(
-                            new RuntimeException("User or pin not valid"),
-                            soapResponse,
-                            zimbraExceptionContainer
-                    );
                 }
-                break;
+            } else {
+                soapResponse.setValue("text", "Phone source or phone destination not valid");
+                handleError(
+                        new RuntimeException("User or pin not valid"),
+                        soapResponse,
+                        zimbraExceptionContainer
+                );
             }
+        } catch (Exception ex) {
+            soapResponse.setValue("text", "Error while connecting to server");
+        }
 
-            case ("send_call"):
-            {
-                String caller = zimbraContext.getParameter("caller", "");
-                String callee = zimbraContext.getParameter("callee", "");
-                if( caller.length() > 0 && callee.length() > 0 ) {
-                    OriginateAction action = new OriginateAction();
-                    action.setChannel(zimbraContext.getParameter("dialChannelType", "")+"/"+caller);
-                    action.setContext(zimbraContext.getParameter("dialContext", ""));
-                    action.setExten(callee);
-                    action.setCallerId(callee + " <" + caller + ">");
-                    action.setPriority(1);
-                    action.setTimeout(timeout);
-                    ManagerResponse response;
-                    try {
-                        if (managerConnection==null) {
-                            soapResponse.setValue("text","ManagerConnection is null");
-                        } else {
-                            managerConnection.login("off");
-                            response = managerConnection.sendAction(action,timeout+10);
-                            soapResponse.setValue("text",response.getMessage());
-                            soapResponse.setValue("success",true);
-                            managerConnection.logoff();
-                        }
-                    }
-                    catch (Exception e) {
-                        soapResponse.setValue("text","Error while connecting to server");
-                    }
-                }
-                else {
-                    soapResponse.setValue("text","Phone number empty!");
-                }
-                break;
-            }
+        if (managerConnection != null &&
+            (managerConnection.getState() == ManagerConnectionState.CONNECTED || managerConnection.getState() == ManagerConnectionState.RECONNECTING)) {
+            managerConnection.logoff();
         }
     }
 

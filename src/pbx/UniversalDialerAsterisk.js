@@ -65,7 +65,6 @@ UniversalDialerAsterisk.prototype.getName = function () {
 
 UniversalDialerAsterisk.prototype.sendCall = function (callee) {
   var soapDoc = AjxSoapDoc.create("AsteriskDialerRequest", "urn:zimbraAccount");
-  soapDoc.set("command", UniversalDialerPbxBase.SEND_CALL);
   soapDoc.set("managerIp", this._globalProperties.ip);
   soapDoc.set("timeout", this._globalProperties.actionTimeout);
   soapDoc.set("managerPort", this._globalProperties.managerPort);
@@ -73,7 +72,8 @@ UniversalDialerAsterisk.prototype.sendCall = function (callee) {
   soapDoc.set("managerSecret", this._globalProperties.serverAdminSecret);
   soapDoc.set("dialChannelType", this._globalProperties.dialChannel);
   soapDoc.set("dialContext", this.zimlet.getUserProperty("UDcontext"));
-  soapDoc.set("caller", this.zimlet.getUserProperty("UDuserNumber"));
+  soapDoc.set("user", this.zimlet.getUserProperty("UDuserNumber"));
+  soapDoc.set("pin", this.zimlet.getUserProperty("UDpin"));
   soapDoc.set("callee", callee);
 
   var params = {
@@ -92,7 +92,6 @@ UniversalDialerAsterisk.prototype.validate = function (settings, callback) {
     pin = UniversalDialerPbxBase.extractPropertyValue(settings, "UDpin");
   
   var soapDoc = AjxSoapDoc.create("AsteriskDialerRequest", "urn:zimbraAccount");
-  soapDoc.set("command", UniversalDialerPbxBase.AUTHENTICATE);
   soapDoc.set("managerIp", this._globalProperties.ip);
   soapDoc.set("timeout", this._globalProperties.actionTimeout);
   soapDoc.set("managerPort", this._globalProperties.managerPort);

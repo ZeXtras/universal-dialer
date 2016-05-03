@@ -8,13 +8,13 @@ The purpose of this zimlet is to collect most type of PBX System and follow the 
 
 * SipX/SipXecs
 * Asterisk
-* 3cx (not tested)
 * MetaSwitch (not tested)
+* 3cx (only for 12 and 12.5, not tested)
 * ...more are coming
 
 ##Installation
 
-Zimlet installation require **_deployment_**, **_configuration_** and **_extension_**.
+Zimlet installation require **_deployment,_** **_configuration_** and **_extension._**
 
 ### Deployment
 
@@ -81,10 +81,6 @@ Standard installation enable this zimlet in _default_ class of service. Any loca
 
 Every user have to enable his local phone with number/pin combination:
 right click on zimlet menu panel and open Settings Dialog, then insert user number and user pin.
-
-
-####Asterisk Case:
-Asterisk requires to set context and doesn't have an authorization control, which is given by admin in global config.
 
 
 ###Call

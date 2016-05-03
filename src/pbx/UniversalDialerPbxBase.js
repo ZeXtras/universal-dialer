@@ -27,9 +27,6 @@ function UniversalDialerPbxBase(zimlet) {
   this.strUtl = new UniversalDialerStringUtils();
 }
 
-UniversalDialerPbxBase.AUTHENTICATE = "authenticate";
-UniversalDialerPbxBase.SEND_CALL = "send_call";
-
 /**
  * AddPbx: return PbxName
  */
