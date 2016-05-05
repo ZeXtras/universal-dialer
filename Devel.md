@@ -56,19 +56,19 @@ This SoapHandler include the APIs to execute custom commands, so the UniversalDi
 ### Build
 
 A makefile is included in the project.
-
 Examples:
-
-    make
+```
+make
+```
 
 build org_zetalliance_universal.zip and universal-dialer-extension.jar, can be found in dist directory.
-
-    make package-deb
-
+```
+make package-deb
+```
 build and create deb package
-
-    make devel
-
+```
+make devel
+```
 build and install zimlet through deb package.
 
 Any library added to the extension must be manually included in the makefile.

@@ -18,7 +18,7 @@
   ~ along with Universal Dialer. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<zimletConfig name="org_zetalliance_universaldialer" version="0.99">
+<zimletConfig name="org_zetalliance_universaldialer" version="0.9">
     <global>
         <!--
           supported server: asterisk(manager), sipX(sipXecs), 3cx, metaSwitch(commPortal)

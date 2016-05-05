@@ -1,5 +1,5 @@
 Package: universal-dialer
-Version: 1.0
+Version: 0.9
 Priority: standard
 Architecture: all
 Depends: openzal-1.10
