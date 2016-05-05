@@ -51,7 +51,7 @@ To configure org_zetalliance_universaldialer a change to the config_template.xml
 * Edit the /tmp/config_template.xml.tmp file according to your needs (Be sure to change server property with exactly supported string)
 * Import the new configuration file by the running following command:
     ```
-    zmzimletctl configure /tmp/config_template.xml.tmp
+    zimbra@host$ zmzimletctl configure /tmp/config_template.xml.tmp
     ```
 
 ## Usage
