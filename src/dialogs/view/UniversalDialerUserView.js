@@ -40,5 +40,5 @@ UniversalDialerUserView.prototype._addRow = function (property) {
   label.setText(property.getLabel());
   label.setSize(200, 24);
   var labelValue = new DwtLabel({parent: toolbar});
-  labelValue.setText(property.getValue());
+  labelValue.setText(property.getValue().toString());
 };

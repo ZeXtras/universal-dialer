@@ -1,98 +1,139 @@
 #Universal Dialer
 
-Due to great variety of PBX systems with own API, is not possible to create a zimlet with standard instructions.
+Due to the great variety of PBX systems, each with its own API, it's not possible to create a zimlet with standardized setup instructions.
 
-The purpose of this zimlet is to collect most type of PBX System and follow the simplest way to originate a call in a SIP phone.
+The purpose of this zimlet is to support as many PBX systems as possible allowing to originate a call through a SIP phone in the easiest way.
 
-##Supported PBX systems
+## Supported PBX systems
 
 * SipX/SipXecs
 * Asterisk
-* MetaSwitch (not tested)
+* MetaSwitch
 * 3cx (only for 12 and 12.5, not tested)
-* ...more are coming
+* ...more are coming ([Developers Guide](Devel.md))
 
-##Installation
+## Installation
 
-Zimlet installation require **_deployment,_** **_configuration_** and **_extension._**
+Zimlet installation require **_deployment_** and [**_configuration._**](#configuration-section)
 
-### Deployment
+The **_deployment_** step can be achieved through [manual deployment](#manual-deploy) or [package deployment](#manual-deploy):
+package deployment use deb package or rpm package.
 
-Deployment 8.x GUI:
+### <a name="manual-deploy"></a>Manual Deployment
 
-* Enter your Zimbra Administration Console
-* Select "Configure" section
-* Select "Zimlet" entry
-* Click on the "gear" button on the top-right corner of the panel and select "Deploy"
-* Click on Choose File button and find org_zetalliance_universaldialer.zip
-* Enable in your choice Class of Service
+Download the following files:
 
+* org_universal_dialer.zip
+* universal-dialer-extension.jar
+* asterisk-java-1.0.0-m1.jar (located in extension/lib)
 
+#### Zimlet Deploy
+
+There are two methods to deploy any zimlet in zimbra:
+via admin interface (GUI) and via command-line interface (CLI).
+
+GUI Deployment (Zimbra 8.x):
+
+* Access your Zimbra Administration Console
+* Enter the "Configure" section
+* Select the "Zimlet" entry
+* Click on the gear icon on the top-right corner of the panel and select "Deploy"
+* Click on the "Choose File" button and browse for org_zetalliance_universaldialer.zip
+* Enable the zimlet on the appropriate Class of Service
 
 CLI Deployment:
-* Log as **zimbra** user
+* Log into the server as the **zimbra** user
 * Place org_zetalliance_universaldialer.zip in /opt/zimbra/zimlets directory of your server
-* Run following command: **`zmzimletctl deploy org_zetalliance_universaldialer.zip`**
+* Run following command:
 
-### Configuration
 
-To configure org_zetalliance_universaldialer is necessary change config_template.xml file:
+    zmzimletctl deploy /opt/zimbra/zimlets/org_zetalliance_universaldialer.zip
 
-* Log as **zimbra** user
-* Extract config_template.xml running following command:
+The standard installation process enables the zimlet on the default class of service.
+To enable it on other classes of service, follow the standard zimlet enable/disable process.
 
-**`zmzimletctl getConfigTemplate org_zetalliance_universaldialer.zip > /tmp/config_template.xml.tmp`**
+#### Extension Deploy
 
-* Edit /tmp/config_template.xml.tmp with necessary parameters (Be sure to change *server* property with exactly supported string)
-* Export configuration running following command:
+Second step require to enable Extension (necessary for Asterisk):
 
-**`zmzimletctl configure /tmp/config_template.xml.tmp`**
-
-### Extension
-
-Last step require to enable Extension (necessary for Asterisk):
-
- * Log as **root** user
+ * Login as the **root** user
  * Create extension directory:
 
- **`mkdir /opt/zimbra/lib/ext/universalDialer`**
 
- * Download correct openzal version for your zimbra version:
+    mkdir /opt/zimbra/lib/ext/universalDialer
 
- **`wget "https://openzal.org/1.10/zal-1.10.5-${ZIMBRA_VERSION}.jar" -O "/tmp/zal.jar"`**
-
- * Copy extension jar, openzal jar and necessary library jar (at the moment only asterisk java jar):
-
- **`cp {path-to}/universal-dialer-extension.jar /opt/zimbra/lib/ext/universalDialer/`**
-
- **`cp /tmp/zal.jar /opt/zimbra/lib/ext/universalDialer/`**
-
- **`cp {path-to}/ /opt/zimbra/lib/ext/universalDialer/`**
-
- * Restart zimbra with **`zmcontrol restart`**
-
-##Usage
-
-If Settings step is skipped, every try to open Call Dialog will be redirected to Settings Dialog.
-
-Standard installation enable this zimlet in _default_ class of service. Any local configuration follow standard procedure.
-
-###Settings
-
-Every user have to enable his local phone with number/pin combination:
-right click on zimlet menu panel and open Settings Dialog, then insert user number and user pin.
+ * Download the correct openzal version for your zimbra version:
 
 
-###Call
+    wget "https://openzal.org/1.10/zal-1.10.4-${ZIMBRA_VERSION}.jar" -O "/tmp/zal.jar"
+
+ * Copy the extension package, the openzal package and the necessary library packages (e.g.: asterisk-java-1.0.0-m1.jar):
+
+
+    cp {path-to}/universal-dialer-extension.jar /opt/zimbra/lib/ext/universalDialer/
+    cp /tmp/zal.jar /opt/zimbra/lib/ext/universalDialer/
+    cp {path-to}/asterisk-java-1.0.0-m1.jar /opt/zimbra/lib/ext/universalDialer/
+
+ * Login as the **zimbra** user and restart zimbra with **`zmcontrol restart`**
+
+### <a name="package-deploy"></a>Package Deployment
+
+Download the proper packages:
+
+* openzal-1.10.deb and universal-dialer.deb
+* openzal-1.10.rpm and universal-dialer.rpm.
+
+Then run the related command:
+
+    sudo dpkg -i openzal-1.10.deb universal-dialer.deb
+      or
+    sudo rpm -i openzal-1.10.rpm universal-dialer.rpm
+### <a name="configuration-section"></a>Configuration
+
+To configure org_zetalliance_universaldialer a change to the config_template.xml file is required:
+
+* Login as the **zimbra** user
+* Extract config_template.xml file from the zimlet package running the following command:
+
+
+    zmzimletctl getConfigTemplate org_zetalliance_universaldialer.zip > /tmp/config_template.xml.tmp
+
+* Edit the /tmp/config_template.xml.tmp file according to your needs (Be sure to change server property with exactly supported string)
+* Import the new configuration file by the running following command:
+
+
+    zmzimletctl configure /tmp/config_template.xml.tmp
+
+
+## Usage
+
+The usage of the zimlet is divided in two parts: the Settings step that must be done once at the beginning and the Call action
+
+If the phone settings have not been entered, opening the "Call" Dialog will redirect to the "Settings" Dialog.
+
+### Settings
+
+Every user have to enable his local phone with number/pin combination and possible custom properties.
+The following actions will open the Settings Dialog:
+1. Right click on the Universal Dialer item in the zimlet menu on the left column, then click on Settings entry
+2. Double click on the Universal Dialer item in the zimlet menu on the left column
+
+The Settings step ends only when the number/pin combination is authenticated.
+
+### Call
 
 There are 2 ways to perform a make call action:
-* Click on Call entry, that open the Call Dialog in menu and input the destination number
-* Right Click on a matching number and perform call, that skip Call Dialog and straight send the request
+* Right Click on a phone number and click "call", that will skip Call Dialog and start the call right away
+* Open the Call Dialog and enter the number you wish to call
+
+The following actions will open the Call Dialog:
+1. Right click on the Universal Dialer item in the zimlet menu on the left column, then click on Call entry
+2. Single click on the Universal Dialer item in the zimlet menu on the left column
 
 ##TODO
 
 * Universal Dialer collides with default zimlet _com_zimbra_phone_ and number's inspection may fail;
 in order to prioritize Universal Dialer as **zimbra** user run following command:
-**`zmzimletctl setPriority org_zetalliance_universaldialer 0`**
-* Improve Asterisk to remove his special cases
-* Tests
+
+
+    zmzimletctl setPriority org_zetalliance_universaldialer 0

@@ -70,7 +70,7 @@
              basedir="${build}"
              update="false">
             <manifest>
-                <attribute name="ZAL-Extension-Class" value="asterisk.UniversalDialerExtension" />
+                <attribute name="ZAL-Extension-Class" value="UniversalDialerExtension" />
                 <attribute name="ZAL-Extension-Name" value="UniversalDialerConnector" />
                 <attribute name="ZAL-Required-Version" value="${zal-version-extended}" />
             </manifest>

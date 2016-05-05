@@ -39,6 +39,7 @@ function UniversalDialerProperty(name, value, hidden, label, inputLabel, dwtInpu
 }
 
 UniversalDialerProperty.INPUT_FIELD = "inputField";
+UniversalDialerProperty.CHECKBOX = "checkbox";
 
 UniversalDialerProperty.prototype.getName = function () {
   return this.name;

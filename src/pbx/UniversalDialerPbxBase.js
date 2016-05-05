@@ -20,7 +20,6 @@
 
 /**
  * AddPbx: interface class that must be implemented
- * AddPbx: load in base function the global properties with this.zimlet.getConfig(property)
  */
 function UniversalDialerPbxBase(zimlet) {
   this.zimlet = zimlet;
@@ -36,7 +35,7 @@ UniversalDialerPbxBase.prototype.getName = function () {
 
 
 /**
- * AddPbx: insert here custom originate call request to Pbx
+ * AddPbx: insert here custom make call request to Pbx
  */
 UniversalDialerPbxBase.prototype.sendCall = function (callee) {
   throw new Error("Not yet implemented");
@@ -44,9 +43,13 @@ UniversalDialerPbxBase.prototype.sendCall = function (callee) {
 
 
 /**
- * AddPbx: insert here custom auth request to Pbx
- * if authentication success run successCallback, else run errorCallback
+ * AddPbx: insert here custom auth request to Pbx,
+ * @param settings: array of [UniversalDialerProperty]
+ * @param callback: callback that save properties
+ *  callback.run(boolean) save properties
+ *  or, if using extension, insert callback in Soap request
  */
+
 UniversalDialerPbxBase.prototype.validate = function (settings, callback) {
   throw new Error("Not yet implemented");
 };
@@ -55,7 +58,7 @@ UniversalDialerPbxBase.prototype.validate = function (settings, callback) {
 /**
  * AddPbx: list of custom user properties,
  * these must be listed in org_zetalliance_universaldialer.xml at userProperties tag
- * @return boolean
+ * @return array of [UniversalDialerProperty]
  */
 UniversalDialerPbxBase.prototype.getUserProperties = function () {
   throw new Error("Not yet implemented");

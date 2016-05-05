@@ -93,7 +93,6 @@ UniversalDialerSettingsDialog.prototype.popup = function () {
 
 UniversalDialerSettingsDialog.prototype._saveUserProperties = function (result) {
   var check = result;
-    // check = (typeof result.getResponse === "function") ? result.getResponse().response.success : result.success;
   if (typeof result.getResponse === "function") {
     check = result.getResponse().response.success;
   }
@@ -111,7 +110,18 @@ UniversalDialerSettingsDialog.prototype._saveUserProperties = function (result) 
 
 UniversalDialerSettingsDialog.prototype._checkAuthentication = function () {
   for (var index = 0; index < this.managedProperties.length; index += 1) {
-    this.managedProperties[index].setValue(this._settingsView.getInputFieldValue(this.managedProperties[index].getName()));
+    switch (this.managedProperties[index].getInputType()) {
+      case UniversalDialerProperty.INPUT_FIELD :
+      {
+        this.managedProperties[index].setValue(this._settingsView.getInputFieldValue(this.managedProperties[index].getName()));
+        break;
+      }
+      case UniversalDialerProperty.CHECKBOX :
+      {
+        this.managedProperties[index].setValue(this._settingsView.getCheckboxSelected(this.managedProperties[index].getName()));
+        break;
+      }
+    }
   }
 
   if (this._settingsView.checkInputFieldsNotEmpty()) {
@@ -122,17 +132,6 @@ UniversalDialerSettingsDialog.prototype._checkAuthentication = function () {
         this._saveUserProperties
       )
     );
-    
-    // if (this.pbxMgr.validateNumber(settings)) {
-    //   appCtxt.getAppController().setStatusMsg({msg: this.strUtl.getMessage("successCheckAuth"), level: 1});
-    //   for (index = 0; index < settings.length; index += 1) {
-    //     this.zimlet.setUserProperty(settings[index].getName(), settings[index].getValue(), true)
-    //   }
-    //
-    //   this.popdown();
-    // } else {
-    //   appCtxt.getAppController().setStatusMsg({msg: this.strUtl.getMessage("errCheckAuth"), level: 3});
-    // }
   } else {
     appCtxt.getAppController().setStatusMsg({msg: this.strUtl.getMessage("inputFieldEmptyInSettings"), level: 2});
   }

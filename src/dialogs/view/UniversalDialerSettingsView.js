@@ -46,10 +46,36 @@ UniversalDialerSettingsView.prototype._addInputFieldRow = function (property) {
   this._inputFields.push(inputField);
 };
 
+UniversalDialerSettingsView.prototype._addCheckboxRow = function (property) {
+  var toolbar = new DwtToolBar({parent: this});
+  var label = new DwtLabel({parent: toolbar});
+  label.setText(property.getInputLabel());
+  label.setSize(200, 24);
+  var checkBox = new DwtCheckbox({
+    parent: toolbar,
+    className: "DwtCheckbox",
+    checked: false
+  });
+  checkBox.setData(
+    UniversalDialerSettingsView.KEY_SETTING_ID,
+    property.getName()
+  );
+  this._tabGroup.addMember(checkBox);
+  this._checkboxes.push(checkBox);
+};
+
 UniversalDialerSettingsView.prototype.getInputFieldValue = function (propertyName) {
   for (var index = 0; index < this._inputFields.length; index += 1) {
     if (this._inputFields[index].getData(UniversalDialerSettingsView.KEY_SETTING_ID) === propertyName) {
       return this._inputFields[index].getValue();
+    }
+  }
+};
+
+UniversalDialerSettingsView.prototype.getCheckboxSelected = function (propertyName) {
+  for (var index = 0; index < this._checkboxes.length; index += 1) {
+    if (this._checkboxes[index].getData(UniversalDialerSettingsView.KEY_SETTING_ID) === propertyName) {
+      return this._checkboxes[index].isSelected();
     }
   }
 };
@@ -66,11 +92,14 @@ UniversalDialerSettingsView.prototype.checkInputFieldsNotEmpty = function () {
 UniversalDialerSettingsView.prototype.updateView = function (properties) {
   this._tabGroup.removeAllMembers();
   this._inputFields = [];
+  this._checkboxes = [];
   this.removeChildren();
   for (var i = 0; i < properties.length; i += 1) {
     if (properties[i].getInputType() === UniversalDialerProperty.INPUT_FIELD) {
       this._addInputFieldRow(properties[i]);
-
+    }
+    else if (properties[i].getInputType() === UniversalDialerProperty.CHECKBOX) {
+      this._addCheckboxRow(properties[i]);
     }
   }
 };

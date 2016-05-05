@@ -32,6 +32,7 @@
     <include>src/pbx/UniversalDialerAsterisk.js</include>
     <include>src/pbx/UniversalDialerMetaSwitch.js</include>
     <include>src/pbx/UniversalDialerSipX.js</include>
+    <!--AddPbx <include>src/pbx/UniversalDialerExtraPbx.js</include> -->
     <include>src/dialogs/view/UniversalDialerCallView.js</include>
     <include>src/dialogs/view/UniversalDialerSettingsView.js</include>
     <include>src/dialogs/view/UniversalDialerUserView.js</include>
@@ -64,6 +65,12 @@
         <property type="string" name="UDuserNumber" value=""/>
         <property type="string" name="UDpin" value=""/>
         <property type="string" name="UDcontext" value=""/>
-        <!-- AddPbx: add here further required user attributes -->
+        <!-- AddPbx: add here further required user attributes
+
+            if property type is boolean (and using UniversalDialerProperty.CHECKBOX) it's not possible to set a boolean default value,
+            then set an empty string value and add follow line at the beginning of getUserProperties method:
+
+            if (this.zimlet.getUserProperty(property name) === "") {this.zimlet.setUserProperty(property name, default value, true)}
+         -->
     </userProperties>
 </zimlet>
