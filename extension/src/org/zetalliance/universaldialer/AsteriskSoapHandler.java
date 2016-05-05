@@ -18,6 +18,8 @@
  * along with Universal Dialer. If not, see <http://www.gnu.org/licenses/>.
  */
 
+package org.zetalliance.universaldialer;
+
 import org.asteriskjava.manager.ManagerConnection;
 import org.asteriskjava.manager.ManagerConnectionFactory;
 import org.asteriskjava.manager.ManagerConnectionState;

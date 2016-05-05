@@ -24,7 +24,7 @@
     </description>
 
     <property name="zal-version"          value="1.10"/>
-    <property name="zal-version-extended" value="1.10.2"/>
+    <property name="zal-version-extended" value="1.10.5"/>
     <!--
         In order to build the extension, is not necessary the target zimbra version,
         any version of the target jar is good for the build. Be sure to install the
@@ -70,7 +70,7 @@
              basedir="${build}"
              update="false">
             <manifest>
-                <attribute name="ZAL-Extension-Class" value="UniversalDialerExtension" />
+                <attribute name="ZAL-Extension-Class" value="org.zetalliance.universaldialer.UniversalDialerExtension" />
                 <attribute name="ZAL-Extension-Name" value="UniversalDialerConnector" />
                 <attribute name="ZAL-Required-Version" value="${zal-version-extended}" />
             </manifest>

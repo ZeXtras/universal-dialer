@@ -18,6 +18,7 @@
  * along with Universal Dialer. If not, see <http://www.gnu.org/licenses/>.
  */
 
+package org.zetalliance.universaldialer;
 
 import org.openzal.zal.Provisioning;
 import org.openzal.zal.soap.QName;

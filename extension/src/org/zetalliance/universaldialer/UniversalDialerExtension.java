@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Universal Dialer. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.zetalliance.universaldialer;
 
 import org.openzal.zal.extension.ZalExtension;
 import org.openzal.zal.extension.ZalExtensionController;

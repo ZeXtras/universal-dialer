@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-    rm /opt/zimbra/lib/ext/universalDialer/zal.jar
-    su -c "/opt/zimbra/bin/zmzimletctl undeploy org_zetalliance_universaldialer" zimbra
+rm /opt/zimbra/lib/ext/universalDialer/zal.jar
+su -c "/opt/zimbra/bin/zmzimletctl undeploy org_zetalliance_universaldialer" zimbra

@@ -1,0 +1,6 @@
+.idea/
+extension/build/
+extension/lib/
+extension/universal-dialer-extension.jar
+dist/
+pkgs/deb/universal-dialer/opt/
