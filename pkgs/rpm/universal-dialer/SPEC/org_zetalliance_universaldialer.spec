@@ -1,5 +1,5 @@
 Name: universal-dialer
-Version: 0.9
+Version: 1.0
 BuildArch: noarch
 License: GPLv2
 Summary: Universal Dialer Zimlet for Zimbra.

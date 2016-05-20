@@ -20,7 +20,7 @@
 
 <zimlet
     name="org_zetalliance_universaldialer"
-    version="0.1"
+    version="1.0"
     label="${msg.zimletLabel}"
     description="${msg.zimletDescription}">
     <include>src/lib/UniversalDialerStringUtils.js</include>
