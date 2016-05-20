@@ -5,7 +5,14 @@ Due to the great variety of PBX systems, each with its own API, it's not possibl
 The purpose of this zimlet is to support as many PBX systems as possible allowing to originate a call through a SIP phone in the easiest way.
 
 
-## Supported PBX systems
+## Requirements
+
+### Zimbra version
+
+The Zimbra versions supported by the Universal Dialer zimlet
+are those supported by the [openzal](http://openzal.org/#developers) library (6.0.7+).
+
+### Supported PBX systems
 
 * SipX/SipXecs
 * Asterisk
@@ -28,8 +35,8 @@ The Universal Dialer depends on openzal library, the packages are available in t
 
 Download the proper packages:
 
-* [openzal-1.10.deb](https://github.com/ZeXtras/OpenZAL/releases/download/1.10.5/openzal-1.10.deb) and universal-dialer.deb
-* [openzal-1.10.rpm](https://github.com/ZeXtras/OpenZAL/releases/download/1.10.5/openzal-1.10-5-0.noarch.rpm) and universal-dialer.rpm
+* [openzal-1.10.deb](https://github.com/ZeXtras/OpenZAL/releases/download/1.10.5/openzal-1.10.deb) and [universal-dialer.deb](https://github.com/ZeXtras/universal-dialer/releases/download/1.0/universal-dialer.deb)
+* [openzal-1.10.rpm](https://github.com/ZeXtras/OpenZAL/releases/download/1.10.5/openzal-1.10-5-0.noarch.rpm) and [universal-dialer.rpm](https://github.com/ZeXtras/universal-dialer/releases/download/1.0/universal-dialer.rpm)
 
 Then run the related command in the right directory with both deb packages:
 ```
