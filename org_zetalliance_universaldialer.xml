@@ -19,32 +19,42 @@
   -->
 
 <zimlet
-        name="org_zetalliance_universaldialer"
-        version="0.1"
-        label="${msg.zimletLabel}"
-        description="${msg.zimletDescription}">
-    <include>UniversalDialer.js</include>
-    <include>base64.js</include>
-    <include>UniversalDialerConnection.js</include>
-    <include>UniversalDialerDialogs.js</include>
-    <include>UniversalDialerSettings.js</include>
-    <include>UniversalDialerViews.js</include>
-    <includeCSS>UniversalDialer.css</includeCSS>
+    name="org_zetalliance_universaldialer"
+    version="1.0"
+    label="${msg.zimletLabel}"
+    description="${msg.zimletDescription}">
+    <include>src/lib/UniversalDialerStringUtils.js</include>
+    <include>src/lib/base64.js</include>
+    <include>src/UniversalDialerProperty.js</include>
+    <include>src/UniversalDialerPbxManager.js</include>
+    <include>src/pbx/UniversalDialerPbxBase.js</include>
+    <include>src/pbx/UniversalDialer3cx.js</include>
+    <include>src/pbx/UniversalDialerAsterisk.js</include>
+    <include>src/pbx/UniversalDialerMetaSwitch.js</include>
+    <include>src/pbx/UniversalDialerSipX.js</include>
+    <!--AddPbx <include>src/pbx/UniversalDialerExtraPbx.js</include> -->
+    <include>src/dialogs/view/UniversalDialerCallView.js</include>
+    <include>src/dialogs/view/UniversalDialerSettingsView.js</include>
+    <include>src/dialogs/view/UniversalDialerUserView.js</include>
+    <include>src/dialogs/UniversalDialerCallDialog.js</include>
+    <include>src/dialogs/UniversalDialerSettingsDialog.js</include>
+    <include>src/UniversalDialer.js</include>
+    <includeCSS>css/UniversalDialer.css</includeCSS>
     <handlerObject>org_zetalliance_universaldialer_HandlerObject</handlerObject>
 
     <zimletPanelItem label="Universal Dialer" icon="Voip-panelIcon">
-        <toolTipText>Left click to open call dialog\n Right click to open menu</toolTipText>
+        <toolTipText>${msg.zimletDescription}</toolTipText>
         <contextMenu>
-            <menuItem label="${msg.call}" id="CALL" icon="Voip-panelIconCall" />
+            <menuItem label="${msg.call}" id="CALL" icon="Voip-panelIconCall"/>
             <menuItem label="" id=""/>
-            <menuItem label="${msg.settings}" id="SETTINGS" icon="Voip-panelIconControl" />
+            <menuItem label="${msg.settings}" id="SETTINGS" icon="Voip-panelIconControl"/>
         </contextMenu>
     </zimletPanelItem>
 
     <contentObject type="phone">
         <toolTipText>${msg.rightClickToDial}</toolTipText>
         <matchOn>
-            <regex attrs="g">(\s|\t|^)\+?(\s?((\(\d{1,4}\))|(\d{1,4}))){1,10}(=?((\.|\,)?(\n|\r\n|\s|\t|$)))</regex>
+            <regex attrs="g">((\/| |\.|\-)?((\(\+?\d{1,4}\))|(\d{2,4}))){2,5}(=?((\.|\,)?(\n|\r\n|\s|\t|$)))</regex>
         </matchOn>
         <contextMenu>
             <menuItem label="${msg.callNumber}" id="CALLFROMREGEX" icon="Voip-panelIcon"/>
@@ -52,8 +62,15 @@
     </contentObject>
 
     <userProperties>
-        <property type="string" name="voip_user" value=""/>
-        <property type="string" name="voip_pin" value=""/>
-        <property type="string" name="dial_context" value=""/>
+        <property type="string" name="UDuserNumber" value=""/>
+        <property type="string" name="UDpin" value=""/>
+        <property type="string" name="UDcontext" value=""/>
+        <!-- AddPbx: add here further required user attributes
+
+            if property type is boolean (and using UniversalDialerProperty.CHECKBOX) it's not possible to set a boolean default value,
+            then set an empty string value and add follow line at the beginning of getUserProperties method:
+
+            if (this.zimlet.getUserProperty(property name) === "") {this.zimlet.setUserProperty(property name, default value, true)}
+         -->
     </userProperties>
 </zimlet>

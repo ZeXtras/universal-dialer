@@ -7,10 +7,9 @@
 
         <property name="serverAdminUser">asteriskManagerAdmin</property>
         <property name="serverAdminSecret">asteriskManagerAdminPassword</property>
-        <property name="actionTimeout">10</property>
+        <property name="actionTimeout">30</property>
 
         <property name="managerPort">5038</property>
-        <property name="dialContext">default</property>
         <property name="dialChannel">SIP</property>
 
     </global>

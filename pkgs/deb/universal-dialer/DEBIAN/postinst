@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+chown zimbra:zimbra /opt/zimbra/zimlets/org_zetalliance_universaldialer.zip
+su -c "/opt/zimbra/bin/zmzimletctl deploy /opt/zimbra/zimlets/org_zetalliance_universaldialer.zip" zimbra
+
+ZIMBRA_VERSION=$(sudo su - zimbra -c "zmcontrol -v" | tr -d '\n' | sed -r 's/.* ([0-9\.]+[0-9]).*/\1/')
+
+ln -f -s /usr/share/openzal/1.10/${ZIMBRA_VERSION}/zal.jar /opt/zimbra/lib/ext/universalDialer/zal.jar
+
+echo ""
+echo "Installation successful."
+echo "Universal Dialer works only after a zimbra restart:"
+echo "sudo su -c '/opt/zimbra/bin/zmmailboxdctl restart' zimbra"

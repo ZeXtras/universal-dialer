@@ -1,0 +1,7 @@
+Package: universal-dialer
+Version: 1.0
+Priority: standard
+Architecture: all
+Depends: openzal-1.10
+Maintainer: Zeta Alliance;
+Description: Universal Dialer Zimlet for Zimbra.
