@@ -46,7 +46,7 @@ To configure org_zetalliance_universaldialer a change to the config_template.xml
 * Login as the **zimbra** user
 * Extract config_template.xml file from the zimlet package running the following command:
     ```
-    zimbra@host$ zmzimletctl getConfigTemplate org_zetalliance_universaldialer.zip > /tmp/config_template.xml.tmp
+    zimbra@host$ zmzimletctl getConfigTemplate /opt/zimbra/zimlets/org_zetalliance_universaldialer.zip > /tmp/config_template.xml.tmp
     ```
 * Edit the /tmp/config_template.xml.tmp file according to your needs (Be sure to change server property with exactly supported string)
 * Import the new configuration file by the running following command:
