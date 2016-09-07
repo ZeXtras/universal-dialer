@@ -31,10 +31,12 @@ Download the proper packages:
 * [openzal-1.10.rpm](https://github.com/ZeXtras/OpenZAL/releases/download/1.10.5/openzal-1.10-5-0.noarch.rpm) and universal-dialer.rpm
 
 Then run the related command in the right directory with both deb packages:
+
 ```
 # dpkg -i openzal-1.10.deb universal-dialer.deb
 ```
 or
+
 ```
 # rpm -i openzal-1.10.rpm universal-dialer.rpm
 ```
@@ -45,11 +47,13 @@ To configure org_zetalliance_universaldialer a change to the config_template.xml
 
 * Login as the **zimbra** user
 * Extract config_template.xml file from the zimlet package running the following command:
+
     ```
     zimbra@host$ zmzimletctl getConfigTemplate /opt/zimbra/zimlets/org_zetalliance_universaldialer.zip > /tmp/config_template.xml.tmp
     ```
 * Edit the /tmp/config_template.xml.tmp file according to your needs (Be sure to change server property with exactly supported string)
 * Import the new configuration file by the running following command:
+
     ```
     zimbra@host$ zmzimletctl configure /tmp/config_template.xml.tmp
     ```
@@ -109,6 +113,7 @@ CLI Deployment:
 * Log into the server as the **zimbra** user
 * Place org_zetalliance_universaldialer.zip in /opt/zimbra/zimlets directory of your server
 * Run following command:
+
     ```
     zimbra@host$ zmzimletctl deploy /opt/zimbra/zimlets/org_zetalliance_universaldialer.zip
     ```
@@ -121,20 +126,30 @@ Second step require to enable Extension (necessary for Asterisk):
 
  * Login as the **root** user
  * Create extension directory:
+ 
     ```
     # mkdir /opt/zimbra/lib/ext/universalDialer
     ```
  * Download the correct openzal version for your zimbra version:
+ 
     ```
     # wget "https://openzal.org/1.10/zal-1.10.5-${ZIMBRA_VERSION}.jar" -O "/tmp/zal.jar"
     ```
  * Copy the extension package, the openzal package and the necessary library packages (e.g.: asterisk-java-1.0.0-m1.jar):
+ 
     ```
     # cp {path-to}/universal-dialer-extension.jar /opt/zimbra/lib/ext/universalDialer/
+    ```
+    
+    ```
     # cp /tmp/zal.jar /opt/zimbra/lib/ext/universalDialer/
+    ```
+    
+    ```
     # cp {path-to}/asterisk-java-1.0.0-m1.jar /opt/zimbra/lib/ext/universalDialer/
     ```
  * Login as the **zimbra** user and restart zimbra with
+ 
     ```
     zimbra@host$ zmcontrol restart
     ```
@@ -143,6 +158,7 @@ Second step require to enable Extension (necessary for Asterisk):
 
 * Universal Dialer collides with default zimlet _com_zimbra_phone_ and number's inspection may fail;
 in order to prioritize Universal Dialer as **zimbra** user run following command:
+
     ```
     zmzimletctl setPriority org_zetalliance_universaldialer 0
     ```
