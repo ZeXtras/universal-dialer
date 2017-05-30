@@ -23,8 +23,7 @@
         Build file for the Zimbra Extension.
     </description>
 
-    <property name="zal-version"          value="1.10"/>
-    <property name="zal-version-extended" value="1.10.5"/>
+    <property name="zal-version"          value="1.11"/>
     <!--
         In order to build the extension, is not necessary the target zimbra version,
         any version of the target jar is good for the build. Be sure to install the
@@ -72,7 +71,7 @@
             <manifest>
                 <attribute name="ZAL-Extension-Class" value="org.zetalliance.universaldialer.UniversalDialerExtension" />
                 <attribute name="ZAL-Extension-Name" value="UniversalDialerConnector" />
-                <attribute name="ZAL-Required-Version" value="${zal-version-extended}" />
+                <attribute name="ZAL-Required-Version" value="${zal-version}.0" />
             </manifest>
         </jar>
     </target>
@@ -80,8 +79,8 @@
     <target name="download-libs"
             description="Download all the required libraries to build the extension">
         <mkdir dir="${lib}"/>
-        <get src="https://openzal.org/${zal-version}/zal-${zal-version-extended}-${zimbra-version}.jar"
-             dest="${lib}/zal-${zal-version-extended}-${zimbra-version}.jar"/>
+        <get src="https://openzal.org/${zal-version}/zal-${zal-version}-${zimbra-version}.jar"
+             dest="${lib}/zal-${zal-version}-${zimbra-version}.jar"/>
     </target>
 
 

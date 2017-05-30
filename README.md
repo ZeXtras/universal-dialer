@@ -19,7 +19,9 @@ Zimlet installation require **_deployment_** and[**_configuration._**](#configur
 The **_deployment_** step can be achieved through [package deployment](#manual-deploy);
 furthermore it's shown how to do the [manual deployment.](#manual-deploy)
 
-### <a name="package-deploy"></a>Package Deployment
+### <a name="package-deploy"></a>Package Deployment (Deprecated, see manual installation)
+
+**Due to some issues about zimbra upgrade, zal package is not more available. This chapter is left here for reference purpouse.**
 
 Package deployment use deb package or rpm package.
 
@@ -85,8 +87,7 @@ The following actions will open the Call Dialog:
 
 ## <a name="manual-deploy"></a>Manual Installation
 
-This section shows how to replace the Package Installation procedure with a manual installation of the zimlet,
-at the end must be done the [configuration](#configuration-section) ot the zimlet
+This section shows the with a manual installation procedure; after that,[configuration](#configuration-section)must be performed.
 
 Download the following files:
 
@@ -133,7 +134,7 @@ Second step require to enable Extension (necessary for Asterisk):
  * Download the correct openzal version for your zimbra version:
  
     ```
-    # wget "https://openzal.org/1.10/zal-1.10.5-${ZIMBRA_VERSION}.jar" -O "/tmp/zal.jar"
+    # wget "https://openzal.org/1.11/zal-1.11-${ZIMBRA_VERSION}.jar" -O "/tmp/zal.jar"
     ```
  * Copy the extension package, the openzal package and the necessary library packages (e.g.: asterisk-java-1.0.0-m1.jar):
  
