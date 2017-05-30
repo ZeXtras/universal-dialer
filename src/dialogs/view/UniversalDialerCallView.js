@@ -35,6 +35,10 @@ UniversalDialerCallView.prototype.getInputValue = function () {
   return this.callInputField.getValue();
 };
 
+UniversalDialerCallView.prototype.setInputValue = function (value) {
+  this.callInputField.setValue(value)
+};
+
 UniversalDialerCallView.prototype.resetInputValue = function () {
   this.callInputField.setValue("");
 };

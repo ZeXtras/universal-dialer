@@ -88,27 +88,30 @@ public class AsteriskSoapHandler implements SoapHandler
                     managerConnection.login("off");
                     CommandAction action = new CommandAction();
                     action.setCommand("sip show users");
-                    CommandResponse authResponse = (CommandResponse) managerConnection.sendAction(action, timeout + 10);
-                    for (String row : authResponse.getResult()) {
-                        String[] array = row.split("\\s+");
-                        if (array[0].equals(user) && array[1].equals(pin) && !array[4].equals("ACL")) {
-                            // successful authentication then:
-                            String callee = zimbraContext.getParameter("callee", "");
-                            if( callee.length() == 0) {
-                                // callee empty => only validation
-                                soapResponse.setValue("success", true);
-                            } else {
-                                // callee not empty => validation and send call
-                                OriginateAction actionCall = new OriginateAction();
-                                actionCall.setChannel(zimbraContext.getParameter("dialChannelType", "") + "/" + user);
-                                actionCall.setContext(zimbraContext.getParameter("dialContext", ""));
-                                actionCall.setExten(callee);
-                                actionCall.setCallerId(callee + " <" + user + ">");
-                                actionCall.setPriority(1);
-                                actionCall.setTimeout(timeout);
-                                ManagerResponse responseCall = managerConnection.sendAction(actionCall,timeout+10);
-                                soapResponse.setValue("text",responseCall.getMessage());
-                                soapResponse.setValue("success",true);
+                    ManagerResponse response = managerConnection.sendAction(action, timeout + 10);
+                    if(response instanceof CommandResponse) {
+                        CommandResponse authResponse = (CommandResponse) response;
+                        for (String row : authResponse.getResult()) {
+                            String[] array = row.split("\\s+");
+                            if (array[0].equals(user) && array[1].substring(0,15).equals(pin.substring(0,15)) && !array[4].equals("ACL")) {
+                                // successful authentication then:
+                                String callee = zimbraContext.getParameter("callee", "");
+                                if (callee.length() == 0) {
+                                    // callee empty => only validation
+                                    soapResponse.setValue("success", true);
+                                } else {
+                                    // callee not empty => validation and send call
+                                    OriginateAction actionCall = new OriginateAction();
+                                    actionCall.setChannel(zimbraContext.getParameter("dialChannelType", "") + "/" + user);
+                                    actionCall.setContext(zimbraContext.getParameter("dialContext", ""));
+                                    actionCall.setExten(callee);
+                                    actionCall.setCallerId(callee + " <" + user + ">");
+                                    actionCall.setPriority(1);
+                                    actionCall.setTimeout(timeout);
+                                    ManagerResponse responseCall = managerConnection.sendAction(actionCall, timeout + 10);
+                                    soapResponse.setValue("text", responseCall.getMessage());
+                                    soapResponse.setValue("success", true);
+                                }
                             }
                         }
                     }

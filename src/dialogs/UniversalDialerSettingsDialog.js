@@ -49,7 +49,7 @@ function UniversalDialerSettingsDialog(zimlet, pbxMgr) {
   this._userGroup.setView(this._userView);
 
   this._settingsGroup = new DwtGrouper(settingsCtrl);
-  this._settingsGroup.setLabel(this.strUtl.getMessage("phoneGroupTitle"));
+  this._settingsGroup.setLabel(this.strUtl.getMessage("settingsGroupTitle"));
   this._settingsView = new UniversalDialerSettingsView(this._settingsGroup, this._tabGroup);
   this._settingsGroup.setView(this._settingsView);
 

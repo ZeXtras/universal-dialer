@@ -91,6 +91,18 @@ UniversalDialerBase.prototype.menuItemSelected = function (itemId) {
           this.pbxManager.sendCall(this._actionSpan.textContent);
         }
         break;
+      case "DIALFROMREGEX":
+        if (this.getUserProperty("UDuserNumber") === "") {
+          appCtxt.getAppController().setStatusMsg({msg: this.strUtl.getMessage("sourcePhoneNotSet"), level: 2});
+          this._settingsDialogPopup();
+        } else {
+          this._callDialogPopup();
+          this.callDialog._callView.setInputValue(this._actionSpan.textContent);
+        }
+        break;
+      case "COPYTOCLIPBOARD":
+        this.strUtl.copyToClipboard(this._actionSpan.textContent);
+        break;
       case "SETTINGS":
         this._settingsDialogPopup();
         break;

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
 rm /opt/zimbra/lib/ext/universalDialer/zal.jar
-su -c "/opt/zimbra/bin/zmzimletctl undeploy org_zetalliance_universaldialer" zimbra
+if [[ -z $(su -c "/opt/zimbra/bin/zmmailboxdctl status" zimbra | grep -i not) ]]; then
+  su -c "/opt/zimbra/bin/zmzimletctl undeploy org_zetalliance_universaldialer" zimbra
+fi
